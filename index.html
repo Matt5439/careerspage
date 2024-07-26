@@ -139,9 +139,7 @@
                 jobButton.textContent = 'View Job';
                 jobButton.onclick = () => {
                     // Construct the URL with the gh_src parameter if it exists
-                    const jobUrl = ghSrc 
-                        ? `job-posts.html?gh_jid=${job.id}&gh_src=${ghSrc}` // Assuming job.id is available
-                        : `job-posts.html?gh_jid=${job.id}`;
+                    const jobUrl = `job-posts.html?gh_jid=${job.id}${ghSrc ? `&gh_src=${ghSrc}` : ''}`; // Assuming job.id is available
                     window.open(jobUrl, '_blank');
                 };
 
