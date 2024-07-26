@@ -117,17 +117,13 @@
             }
         }
 
-        function getQueryParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
         function displayJobs(jobs) {
             const jobContainer = document.getElementById('jobContainer');
             jobContainer.innerHTML = '';
 
-            // Get the current gh_src parameter
-            const ghSrc = getQueryParameter('gh_src');
+            // Get the 'gh_src' parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const ghSrc = urlParams.get('gh_src');
 
             jobs.forEach(job => {
                 const jobElement = document.createElement('div');
@@ -142,11 +138,10 @@
                 const jobButton = document.createElement('button');
                 jobButton.textContent = 'View Job';
                 jobButton.onclick = () => {
-                    // Create the URL for the job post, retaining the gh_src parameter
-                    let jobUrl = `job-posts.html?gh_jid=${job.id}`;
-                    if (ghSrc) {
-                        jobUrl += `&gh_src=${ghSrc}`;
-                    }
+                    // Construct the URL with the gh_src parameter if it exists
+                    const jobUrl = ghSrc 
+                        ? `job-posts.html?gh_jid=${job.id}&gh_src=${ghSrc}` // Assuming job.id is available
+                        : `job-posts.html?gh_jid=${job.id}`;
                     window.open(jobUrl, '_blank');
                 };
 
