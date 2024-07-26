@@ -63,20 +63,24 @@
             // Get the 'gh_jid' and 'gh_src' parameters from the URL
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('gh_jid');
-            const ghSrc = urlParams.get('gh_src');
+            const ghSrc = urlParams.get('gh_src'); // Capture the gh_src parameter
 
             // Check if jobId exists
             if (jobId) {
                 // Create the script tag for embedding the job post
                 const script = document.createElement('script');
-                // Append gh_src to the script URL if it exists
-                script.src = `https://boards.greenhouse.io/embed/job_board/js?for=secondeexternaldemomatt&gh_jid=${jobId}${ghSrc ? `&gh_src=${ghSrc}` : ''}`;
+                script.src = `https://boards.greenhouse.io/embed/job_board/js?for=secondeexternaldemomatt&gh_jid=${jobId}`; // Replace 'boardtokenname' with your actual board token
                 document.getElementById('grnhse_app').appendChild(script);
             } else {
                 document.getElementById('grnhse_app').innerHTML = '<p>No job post found. Please check the job link.</p>';
+            }
+
+            // Function to add the gh_src parameter to the iframe if needed
+            if (ghSrc) {
+                const iframe = document.getElementById('grnhse_app');
+                iframe.src += `?gh_src=${ghSrc}`; // Append the gh_src parameter if it exists
             }
         </script>
     </main>
 </body>
 </html>
-
