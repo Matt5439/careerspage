@@ -117,9 +117,17 @@
             }
         }
 
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
         function displayJobs(jobs) {
             const jobContainer = document.getElementById('jobContainer');
             jobContainer.innerHTML = '';
+
+            // Get the current gh_src parameter
+            const ghSrc = getQueryParameter('gh_src');
 
             jobs.forEach(job => {
                 const jobElement = document.createElement('div');
@@ -133,7 +141,14 @@
 
                 const jobButton = document.createElement('button');
                 jobButton.textContent = 'View Job';
-                jobButton.onclick = () => window.open(job.absolute_url, '_blank');
+                jobButton.onclick = () => {
+                    // Create the URL for the job post, retaining the gh_src parameter
+                    let jobUrl = `job-posts.html?gh_jid=${job.id}`;
+                    if (ghSrc) {
+                        jobUrl += `&gh_src=${ghSrc}`;
+                    }
+                    window.open(jobUrl, '_blank');
+                };
 
                 jobElement.appendChild(jobTitle);
                 jobElement.appendChild(jobLocation);
@@ -147,3 +162,4 @@
     </script>
 </body>
 </html>
+
