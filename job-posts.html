@@ -60,15 +60,17 @@
         <div id="grnhse_app" class="iframe-container"></div>
 
         <script>
-            // Get the 'gh_jid' parameter from the URL
+            // Get the 'gh_jid' and 'gh_src' parameters from the URL
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('gh_jid');
+            const ghSrc = urlParams.get('gh_src');
 
             // Check if jobId exists
             if (jobId) {
                 // Create the script tag for embedding the job post
                 const script = document.createElement('script');
-                script.src = `https://boards.greenhouse.io/embed/job_board/js?for=secondeexternaldemomatt&gh_jid=${jobId}`; // Replace 'boardtokenname' with your actual board token
+                // Append gh_src to the script URL if it exists
+                script.src = `https://boards.greenhouse.io/embed/job_board/js?for=secondeexternaldemomatt&gh_jid=${jobId}${ghSrc ? `&gh_src=${ghSrc}` : ''}`;
                 document.getElementById('grnhse_app').appendChild(script);
             } else {
                 document.getElementById('grnhse_app').innerHTML = '<p>No job post found. Please check the job link.</p>';
@@ -77,3 +79,4 @@
     </main>
 </body>
 </html>
+
